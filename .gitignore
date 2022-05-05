@@ -1,0 +1,18 @@
+# Website
+
+call-to-action.html
+contact.html
+portfolio.html
+skill-bars.html
+testimonials.html
+inc
+images/portfolio
+
+# Terraform
+
+terraform/terraform.tfvars
+terraform/.terraform
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform.lock.hcl
+.terraform

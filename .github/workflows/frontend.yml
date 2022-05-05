@@ -1,0 +1,28 @@
+name: 'Frontend'
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'frontend/**'
+
+jobs:
+  deploy_frontend:
+    name: 'Frontend'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az storage blob upload-batch --account-name bcprdwebsitesa01 -d '$web' -s frontend/
+      - name: logout
+        run: |
+          az logout
