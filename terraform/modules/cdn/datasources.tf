@@ -17,6 +17,7 @@ data "azurerm_key_vault_certificate" "cdn-cert" {
 
   depends_on = [
     azurerm_key_vault_access_policy.kv_access
+  ]
 }
 
 data "azurerm_storage_account" "sa" {
