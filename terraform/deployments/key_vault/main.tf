@@ -10,7 +10,7 @@ terraform {
 }
 
 module "key_vault" {
-  source = "../modules/key_vault"
+  source = "../../modules/key_vault"
 
   rg_name   = var.rg_name
   kv_name   = var.kv_name
