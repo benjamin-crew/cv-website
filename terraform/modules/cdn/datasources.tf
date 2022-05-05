@@ -14,6 +14,9 @@ data "azurerm_key_vault" "kv" {
 data "azurerm_key_vault_certificate" "cdn-cert" {
   name         = var.cert_name
   key_vault_id = data.azurerm_key_vault.kv.id
+
+  depends_on = [
+    azurerm_key_vault_access_policy.kv_access
 }
 
 data "azurerm_storage_account" "sa" {
