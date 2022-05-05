@@ -18,14 +18,14 @@ concurrency:
   group: production_environment
 
 jobs:
-  storage:
-    name: 'Storage - Terraform'
+  env:
+    name: 'Environment - Terraform'
     runs-on: ubuntu-latest
 
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/storage
+        working-directory: ./terraform/deployments/env
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -53,110 +53,145 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve
 
-  key_vault:
-    name: 'Key Vault - Terraform'
-    runs-on: ubuntu-latest
-    needs: storage
+  # storage:
+  #   name: 'Storage - Terraform'
+  #   runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./terraform/key_vault
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: ./terraform/deployments/storage
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
+  #   steps:
+  #   # Checkout the repository to the GitHub Actions runner
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    # Install the preferred version of Terraform CLI 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.1.8
+  #   # Install the preferred version of Terraform CLI 
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v1
+  #     with:
+  #       terraform_version: 1.1.8
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      id: init
-      run: terraform init
+  #   # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+  #   - name: Terraform Init
+  #     id: init
+  #     run: terraform init
 
-    # Validate the Terraform files
-    - name: Terraform Validate
-      id: validate
-      run: terraform validate
+  #   # Validate the Terraform files
+  #   - name: Terraform Validate
+  #     id: validate
+  #     run: terraform validate
 
-      # On push to main, build or change infrastructure according to Terraform configuration files
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+  #     # On push to main, build or change infrastructure according to Terraform configuration files
+  #   - name: Terraform Apply
+  #     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #     run: terraform apply -auto-approve
 
-  cdn:
-    name: 'CDN - Terraform'
-    runs-on: ubuntu-latest
-    # needs: [storage, key_vault]
+  # key_vault:
+  #   name: 'Key Vault - Terraform'
+  #   runs-on: ubuntu-latest
+  #   needs: storage
 
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./terraform/cdn
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: ./terraform/deployments/key_vault
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
+  #   steps:
+  #   # Checkout the repository to the GitHub Actions runner
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    # Install the preferred version of Terraform CLI 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.1.8
+  #   # Install the preferred version of Terraform CLI 
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v1
+  #     with:
+  #       terraform_version: 1.1.8
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      id: init
-      run: terraform init
+  #   # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+  #   - name: Terraform Init
+  #     id: init
+  #     run: terraform init
 
-    # Validate the Terraform files
-    - name: Terraform Validate
-      id: validate
-      run: terraform validate
+  #   # Validate the Terraform files
+  #   - name: Terraform Validate
+  #     id: validate
+  #     run: terraform validate
 
-      # On push to main, build or change infrastructure according to Terraform configuration files
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+  #     # On push to main, build or change infrastructure according to Terraform configuration files
+  #   - name: Terraform Apply
+  #     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #     run: terraform apply -auto-approve
 
-  acmebot:
-    name: 'Acmebot - Terraform'
-    runs-on: ubuntu-latest
-    # needs: [storage, key_vault, cdn]
+  # cdn:
+  #   name: 'CDN - Terraform'
+  #   runs-on: ubuntu-latest
+  #   # needs: [storage, key_vault]
 
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./terraform/certification
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: ./terraform/deployments/cdn
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
+  #   steps:
+  #   # Checkout the repository to the GitHub Actions runner
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    # Install the preferred version of Terraform CLI 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.1.8
+  #   # Install the preferred version of Terraform CLI 
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v1
+  #     with:
+  #       terraform_version: 1.1.8
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      id: init
-      run: terraform init
+  #   # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+  #   - name: Terraform Init
+  #     id: init
+  #     run: terraform init
 
-    # Validate the Terraform files
-    - name: Terraform Validate
-      id: validate
-      run: terraform validate
+  #   # Validate the Terraform files
+  #   - name: Terraform Validate
+  #     id: validate
+  #     run: terraform validate
 
-      # On push to main, build or change infrastructure according to Terraform configuration files
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+  #     # On push to main, build or change infrastructure according to Terraform configuration files
+  #   - name: Terraform Apply
+  #     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #     run: terraform apply -auto-approve
+
+  # acmebot:
+  #   name: 'Acmebot - Terraform'
+  #   runs-on: ubuntu-latest
+  #   # needs: [storage, key_vault, cdn]
+
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: ./terraform/deployments/certification
+
+  #   steps:
+  #   # Checkout the repository to the GitHub Actions runner
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+
+  #   # Install the preferred version of Terraform CLI 
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v1
+  #     with:
+  #       terraform_version: 1.1.8
+
+  #   # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+  #   - name: Terraform Init
+  #     id: init
+  #     run: terraform init
+
+  #   # Validate the Terraform files
+  #   - name: Terraform Validate
+  #     id: validate
+  #     run: terraform validate
+
+  #     # On push to main, build or change infrastructure according to Terraform configuration files
+  #   - name: Terraform Apply
+  #     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  #     run: terraform apply -auto-approve
