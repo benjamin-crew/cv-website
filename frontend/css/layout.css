@@ -56,7 +56,13 @@ header .banner {
    text-align: center;
 }
 
-header .banner-text { width: 100%; }
+
+header .banner-text {
+   border-radius: 10px;
+   width: 100%; 
+   background-color: rgba(30, 30, 30, 0.6);
+   padding: 10px;
+}
 header .banner-text h1 {
    font: 90px/1.1em 'opensans-bold', sans-serif;
    color: #fff;
@@ -147,6 +153,7 @@ header .scrolldown a:hover { color: #11ABB0; }
 ul#nav {
    min-height: 48px;
    width: auto;
+   background-color: rgba(30, 30, 30, 0.6);
 
    /* center align the menu */
    text-align: center;
@@ -1004,4 +1011,3 @@ footer .social-links li:first-child { margin-left: 0; }
  	border-radius: 100%;
 }
 #go-top a:hover { background-color: #0F9095; }
-
